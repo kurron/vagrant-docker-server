@@ -7,11 +7,11 @@ Vagrant.configure("2") do |config|
     config.vagrant.host = :detect
 
     config.vm.boot_timeout = 300
-    config.vm.box = "trusty-x64-desktop/5.0.11"
+    config.vm.box = "trusty-x64-server/5.0.11"
     config.vm.box_check_update = true
-    config.vm.box_download_checksum = "8bbeb3a630a8ac827cde2fc636373c97"
+    config.vm.box_download_checksum = "bc64a2293bebbac95ba60d280d585192"
     config.vm.box_download_checksum_type = "md5"
-    config.vm.box_url = "https://s3.amazonaws.com/org-kurron-vagrant-boxes/5.0.11/trusty-x64-desktop.box"
+    config.vm.box_url = "https://s3.amazonaws.com/org-kurron-vagrant-boxes/5.0.11/trusty-x64-server.box"
     config.vm.graceful_halt_timeout = 60
     config.vm.post_up_message = "Login credentials are vagrant/vagrant"
     config.vm.usable_port_range = 2200..2250
@@ -41,30 +41,22 @@ Vagrant.configure("2") do |config|
         remote.path = "scripts/install-docker.sh"
     end
 
-    config.vm.provision "shell" do |remote|
-        remote.path = "scripts/install-development-tools.sh"
-    end
-
-    config.vm.provision "shell" do |remote|
-        remote.path = "scripts/install-operations-tools.sh"
-    end
-
-    project = ENV['CORPORATE_PLAYS']
+    project = ENV['DOCKER_CORPORATE_PLAYS']
     config.vm.provision "shell" do |corporate|
         corporate.path = "scripts/install-corporate.sh"
         corporate.args = project 
     end
 
-    project = ENV['USER_PLAYS']
+    project = ENV['DOCKER_USER_PLAYS']
     config.vm.provision "shell" do |custom|
         custom.path = "scripts/install-custom.sh"
         custom.args = project 
     end
 
-    config.vm.define "desktop" do |desktop|
-        desktop.vm.provider "virtualbox" do |v|
+    config.vm.define "server" do |server|
+        server.vm.provider "virtualbox" do |v|
             v.gui = true
-            v.name = "jvmguy.desktop"
+            v.name = "jvmguy.server"
             v.customize ["modifyvm", :id, "--memory", "4096"]
             v.customize ["modifyvm", :id, "--vram", "24"]
             v.customize ["modifyvm", :id, "--cpus", "2"]
