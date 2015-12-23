@@ -1,5 +1,5 @@
 #Overview
-This project is a Vagrant box that is provisioned for sofware development.  It is a Xubuntu-based system and 
+This project is a Vagrant box that is provisioned for Docker development.  It is a Xubuntu-based system and 
 has many of the tools needed by a developer already installed.  The provisioning mechanism is based on Ansible 
 and allows for user-specific customizations to be applied.
 
@@ -37,35 +37,20 @@ filling up the `/boot` partition and Docker images filling up the `/` partition.
 Log into the system with a username of `vagrant` and password of `vagrant`.
 
 ##Installed Infrastructure
-Docker containers running common infrastructure are installed in `/home/vagrant/bin/servers`.  Look at the `docker-compose.yml` 
-file to see what services are currently available to use.  Run the `start.sh` script to install and run the servers.
-
-##Docker-based IDEs
-All of the IDEs are housed in Docker containers.  This allows for faster rebuilds of the environment and ensures that an
-IDE's bits are not downloaded until needed.  The **initial launch of an IDE, however, can take several moments** as the Docker image is
-downloaded from the repository.  You can pre-load the images by running `bin/prime-images.sh`, avoiding the delay.  Since this
-grabs all images, it might make sense to examine the script and pull down only the images you are certain you will be using.
-
-Some of the IDEs, when launched for the first time, will ask to create a convenience script or soft-link.  You should
-**NOT** check that option because it is unnecessary in a container environment and requires `sudo` access, which the container
-account does not have.
-
-The containers are constantly being updated and improved.  If there is something missing or there is an issue with the container, 
-please open a [ticket](https://github.com/kurron/jvm-development-environment/issues) or 
-[pull-request](https://github.com/kurron/jvm-development-environment/pulls).
+TODO
 
 ##Applying Your Work Specific Customizations
-The system will look for an environment variable named `CORPORATE_PLAYS`.  If the shell running Vagrant specifies the variable 
+The system will look for an environment variable named `DOCKER_CORPORATE_PLAYS`.  If the shell running Vagrant specifies the variable 
 such that it points to an Ansible project on GitHub, the plays will be run and the changes applied.  For example 
-`CORPORATE_PLAYS = kurron/ansible-pull-transparent.git` will result in 
+`DOCKER_CORPORATE_PLAYS = kurron/ansible-pull-transparent.git` will result in 
 [this playbook](https://github.com/kurron/ansible-pull-transparent.git) getting run.  If the environment variable does 
 not exist, the custom provisioning step is not run.
 
 ##Applying Your Own Customizations
-The system will look for an environment variable named `USER_PLAYS`.  If the shell running Vagrant specifies the variable 
+The system will look for an environment variable named `DOCKER_USER_PLAYS`.  If the shell running Vagrant specifies the variable 
 such that it points to an Ansible project on GitHub, the plays will be run and the changes applied.  For example 
-`USER_PLAYS = kurron/ansible-pull-desktop-tweaks.git` will result in 
-[this playbook](https://github.com/kurron/ansible-pull-desktop-tweaks) getting run.  If the environment variable does 
+`DOCKER_USER_PLAYS = kurron/ansible-pull-server-tweaks.git` will result in 
+[this playbook](https://github.com/kurron/ansible-pull-server-tweaks) getting run.  If the environment variable does 
 not exist, the custom provisioning step is not run.
 
 ##Gather Docker Container Metrics
@@ -76,27 +61,14 @@ system resources.
 The provisioning of the environment is done by several smaller projects.  You might be interested in examining
 exactly what they install and get a full inventory of the sofware and conveniences.
 
-* [ansible-pull-development](https://github.com/kurron/ansible-pull-development)
 * [ansible-pull-docker](https://github.com/kurron/ansible-pull-docker)
-* [ansible-pull-operations](https://github.com/kurron/ansible-pull-operations)
 * [ansible-pull-transparent](https://github.com/kurron/ansible-pull-transparent)
 
 The README files also give insight into what they install and how to use them.
 
 ##Installed Software
 
-* current [JDK](http://www.oracle.com/technetwork/java/index.html)
-* [SDKMAN!](http://sdkman.io/) to manage various JVM tools, including Groovy, Grails, Gradle and Spring Boot
-* Clojure's [leiningen](http://leiningen.org/) tool
-* [NodeJS](https://nodejs.org/en/) and [npm](https://www.npmjs.com/)
-* [Packer](https://packer.io/)
-* [Terraform](https://terraform.io/)
-* [AWS CLI](https://aws.amazon.com/cli/)
-* [Ant](http://ant.apache.org/)
-* [Maven](https://maven.apache.org/)
 * [Docker](https://www.docker.com/)
-* various [JetBrains IDEs](http://www.jetbrains.com/) running via Docker containers
-* [httpie](https://github.com/jkbrzt/httpie) - a more friendly alternative to cURL and wget
 
 #Troubleshooting
 
