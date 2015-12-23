@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.require_version ">= 1.7.4"
+
+Vagrant.configure("2") do |config|
+    config.vagrant.host = :detect
+
+    config.vm.boot_timeout = 300
+    config.vm.box = "trusty-x64-desktop/5.0.11"
+    config.vm.box_check_update = true
+    config.vm.box_download_checksum = "8bbeb3a630a8ac827cde2fc636373c97"
+    config.vm.box_download_checksum_type = "md5"
+    config.vm.box_url = "https://s3.amazonaws.com/org-kurron-vagrant-boxes/5.0.11/trusty-x64-desktop.box"
+    config.vm.graceful_halt_timeout = 60
+    config.vm.post_up_message = "Login credentials are vagrant/vagrant"
+    config.vm.usable_port_range = 2200..2250
+
+    config.ssh.password = "vagrant"
+    config.ssh.username = "vagrant"
+
+    config.vm.provider "virtualbox" do |v|
+        v.gui = false
+        v.customize ["modifyvm", :id, "--rtcuseutc", "on"]
+        v.customize ["modifyvm", :id, "--hwvirtex", "on"]
+        v.customize ["modifyvm", :id, "--nestedpaging", "on"]
+        v.customize ["modifyvm", :id, "--vtxvpid", "on"]
+        v.customize ["modifyvm", :id, "--largepages", "on"]
+        v.customize ["modifyvm", :id, "--acpi", "on"]
+        v.customize ["modifyvm", :id, "--nictype1", "virtio"]
+        v.customize ["modifyvm", :id, "--groups", "/JVM Development"]
+    end
+
+    config.vm.provision "file", source: "files/inventory", destination: "/tmp/inventory"
+
+    config.vm.provision "shell" do |remote|
+        remote.path = "scripts/install-ansible.sh"
+    end
+
+    config.vm.provision "shell" do |remote|
+        remote.path = "scripts/install-docker.sh"
+    end
+
+    config.vm.provision "shell" do |remote|
+        remote.path = "scripts/install-development-tools.sh"
+    end
+
+    config.vm.provision "shell" do |remote|
+        remote.path = "scripts/install-operations-tools.sh"
+    end
+
+    project = ENV['CORPORATE_PLAYS']
+    config.vm.provision "shell" do |corporate|
+        corporate.path = "scripts/install-corporate.sh"
+        corporate.args = project 
+    end
+
+    project = ENV['USER_PLAYS']
+    config.vm.provision "shell" do |custom|
+        custom.path = "scripts/install-custom.sh"
+        custom.args = project 
+    end
+
+    config.vm.define "desktop" do |desktop|
+        desktop.vm.provider "virtualbox" do |v|
+            v.gui = true
+            v.name = "jvmguy.desktop"
+            v.customize ["modifyvm", :id, "--memory", "4096"]
+            v.customize ["modifyvm", :id, "--vram", "24"]
+            v.customize ["modifyvm", :id, "--cpus", "2"]
+        end
+    end
+end
