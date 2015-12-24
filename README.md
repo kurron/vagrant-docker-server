@@ -1,5 +1,5 @@
 #Overview
-This project is a Vagrant box that is provisioned for Docker development.  It is a Xubuntu-based system and 
+This project is a Vagrant box that is provisioned for Docker development.  It is a Ubuntu-based system and 
 has many of the tools needed by a developer already installed.  The provisioning mechanism is based on Ansible 
 and allows for user-specific customizations to be applied.
 
@@ -37,7 +37,10 @@ filling up the `/boot` partition and Docker images filling up the `/` partition.
 Log into the system with a username of `vagrant` and password of `vagrant`.
 
 ##Installed Infrastructure
-TODO
+* [Docker Engine](https://docs.docker.com/)
+* [Docker Compose](https://docs.docker.com/compose/)
+* [Docker Machine](https://docs.docker.com/machine/)
+* [Ansible](http://www.ansible.com/)
 
 ##Applying Your Work Specific Customizations
 The system will look for an environment variable named `DOCKER_CORPORATE_PLAYS`.  If the shell running Vagrant specifies the variable 
