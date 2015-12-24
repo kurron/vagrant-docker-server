@@ -16,8 +16,6 @@ All the components of the environment live in repositories on the internet so th
 #Installation
 Type `vagrant up` and go get a cup of coffee.  The construction time of the box greatly depends on your internet speeds.
 
-![screenshot](screenshot.png)
-
 #Tips and Tricks
 
 ##RAM and CPU Settings
