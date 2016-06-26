@@ -1,17 +1,17 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.require_version ">= 1.8.1"
+Vagrant.require_version ">= 1.8.4"
 
 Vagrant.configure("2") do |config|
     config.vagrant.host = :detect
 
     config.vm.boot_timeout = 300
-    config.vm.box = "xenial-x64-server/5.0.20"
+    config.vm.box = "xenial-x64-server/5.0.22"
     config.vm.box_check_update = true
-    config.vm.box_download_checksum = "83f75e07960b83ac8a013ce984e6d03a"
+    config.vm.box_download_checksum = "630f23819def00b89fc51bfb2c66f1d7"
     config.vm.box_download_checksum_type = "md5"
-    config.vm.box_url = "https://d2eko4jw6kz4m.cloudfront.net/5.0.20/xenial-x64-server.box"
+    config.vm.box_url = "https://d2eko4jw6kz4m.cloudfront.net/5.0.22/xenial-x64-server.box"
     config.vm.graceful_halt_timeout = 60
     config.vm.post_up_message = "Login credentials are vagrant/vagrant"
     config.vm.usable_port_range = 2200..2250
@@ -41,16 +41,16 @@ Vagrant.configure("2") do |config|
         remote.path = "scripts/install-docker.sh"
     end
 
-    project = ENV['DOCKER_CORPORATE_PLAYS']
-    config.vm.provision "shell" do |corporate|
-        corporate.path = "scripts/install-corporate.sh"
-        corporate.args = project 
-    end
-
     project = ENV['DOCKER_USER_PLAYS']
     config.vm.provision "shell" do |custom|
         custom.path = "scripts/install-custom.sh"
         custom.args = project 
+    end
+
+    project = ENV['DOCKER_CORPORATE_PLAYS']
+    config.vm.provision "shell" do |corporate|
+        corporate.path = "scripts/install-corporate.sh"
+        corporate.args = project
     end
 
     config.vm.define "server" do |server|
