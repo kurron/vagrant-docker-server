@@ -9,7 +9,7 @@ Vagrant.configure("2") do |config|
     config.vm.boot_timeout = 300
     config.vm.box = "kurron/xenial-x64-server"
     config.vm.box_check_update = true
-    config.vm.box_download_checksum = "78072f8e5e2a042646df821d38c39bbd"
+    config.vm.box_download_checksum = "67b6d06c85749e77d42be8051513bc35"
     config.vm.box_download_checksum_type = "md5"
 #   config.vm.box_url = "https://d2eko4jw6kz4m.cloudfront.net/5.1.4/xenial-x64-server.box"
     config.vm.graceful_halt_timeout = 60
