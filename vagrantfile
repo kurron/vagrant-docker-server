@@ -54,6 +54,9 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.define "server" do |server|
+        # put the box on the network so we can participate in multi-host networking
+        server.vm.network "public_network"
+        server.vm.hostname="xenial"
         server.vm.provider "virtualbox" do |v|
             v.gui = true
             v.name = "jvmguy.server"
