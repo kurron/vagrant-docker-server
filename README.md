@@ -18,15 +18,15 @@ Type `vagrant up` and go get a cup of coffee.  The construction time of the box 
 #Tips and Tricks
 
 ##RAM and CPU Settings
-If you examine the `vagrantfile` file, you will see that the virtual machine is configured to use 4GB of RAM and
-2 CPUs.  Feel free to change these values to match your computer's hardware.
+If you examine the `vagrantfile` file, you will see that the virtual machine is configured to use 2GB of RAM and
+1 CPU.  Feel free to change these values to match your computer's hardware.
 
 ##Low Disk Space
 If an environment is used long enough, it is likely to run out of disk space.  The two main culprits are kernal updates
 filling up the `/boot` partition and Docker images filling up the `/var/lib/docker` partition.  You have at least 3 options:
 
 * throw away the environment and start fresh
-* clean up the old kernels via `sudo apt-get autoremove`
+* clean up the old kernels via `sudo apt autoremove`
 * clean up Docker containers via `docker rm --volumes --force $(docker ps --all --quiet)`
 * clean up Docker images, after cleaning up the containers, via `docker rmi --force $(docker images --quiet)`
 
@@ -53,22 +53,12 @@ such that it points to an Ansible project on GitHub, the plays will be run and t
 [this playbook](https://github.com/kurron/ansible-pull-server-tweaks) getting run.  If the environment variable does
 not exist, the custom provisioning step is not run.
 
-##Gather Docker Container Metrics
-`sudo csysdig -pc` will fire up the sysdig tool.  Use `F2` to switch to the container view and see how each container is using
-system resources.
-
 ##Sub-Projects
-The provisioning of the environment is done by several smaller projects.  You might be interested in examining
+The provisioning of the environment is done by several upstream projects.  You might be interested in examining
 exactly what they install and get a full inventory of the sofware and conveniences.
 
-* [ansible-pull-docker](https://github.com/kurron/ansible-pull-docker)
-* [ansible-pull-transparent](https://github.com/kurron/ansible-pull-transparent)
-
-The README files also give insight into what they install and how to use them.
-
-##Installed Software
-
-* [Docker](https://www.docker.com/)
+* [packer-server-xenial](https://github.com/kurron/packer-server-xenial) - `master` branch
+* [packer-server-xenial](https://github.com/kurron/packer-server-xenial) - `docker` branch
 
 #Troubleshooting
 
