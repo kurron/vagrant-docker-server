@@ -1,17 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant.require_version ">= 1.8.5"
+Vagrant.require_version ">= 1.8.7"
 
 Vagrant.configure("2") do |config|
     config.vagrant.host = :detect
 
     config.vm.boot_timeout = 300
-    config.vm.box = "kurron/xenial-x64-server"
+    config.vm.box = "kurron/xenial-server-docker"
     config.vm.box_check_update = true
-    config.vm.box_download_checksum = "67b6d06c85749e77d42be8051513bc35"
-    config.vm.box_download_checksum_type = "md5"
-#   config.vm.box_url = "https://d2eko4jw6kz4m.cloudfront.net/5.1.4/xenial-x64-server.box"
     config.vm.graceful_halt_timeout = 60
     config.vm.post_up_message = "Login credentials are vagrant/vagrant"
     config.vm.usable_port_range = 2200..2250
@@ -31,20 +28,10 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--groups", "/JVM Development"]
     end
 
-    config.vm.provision "file", source: "files/inventory", destination: "/tmp/inventory"
-
-    config.vm.provision "shell" do |remote|
-        remote.path = "scripts/install-ansible.sh"
-    end
-
-    config.vm.provision "shell" do |remote|
-        remote.path = "scripts/install-docker.sh"
-    end
-
     project = ENV['DOCKER_USER_PLAYS']
     config.vm.provision "shell" do |custom|
         custom.path = "scripts/install-custom.sh"
-        custom.args = project 
+        custom.args = project
     end
 
     project = ENV['DOCKER_CORPORATE_PLAYS']
@@ -53,16 +40,16 @@ Vagrant.configure("2") do |config|
         corporate.args = project
     end
 
-    config.vm.define "server" do |server|
+    config.vm.define "xenial-docker" do |server|
         # put the box on the network so we can participate in multi-host networking
         server.vm.network "public_network"
-        server.vm.hostname="xenial"
+        server.vm.hostname="xenial-docker"
         server.vm.provider "virtualbox" do |v|
             v.gui = true
-            v.name = "jvmguy.server"
-            v.customize ["modifyvm", :id, "--memory", "4096"]
+            v.name = "jvmguy.xenial-docker"
+            v.customize ["modifyvm", :id, "--memory", "2048"]
             v.customize ["modifyvm", :id, "--vram", "24"]
-            v.customize ["modifyvm", :id, "--cpus", "2"]
+            v.customize ["modifyvm", :id, "--cpus", "1"]
         end
     end
 end
