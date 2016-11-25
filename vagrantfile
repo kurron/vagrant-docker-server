@@ -7,7 +7,6 @@ Vagrant.configure("2") do |config|
     config.vagrant.host = :detect
 
     config.vm.boot_timeout = 300
-    config.vm.box = "kurron/xenial-server-docker"
     config.vm.box_check_update = true
     config.vm.graceful_halt_timeout = 60
     config.vm.post_up_message = "Login credentials are vagrant/vagrant"
@@ -15,6 +14,9 @@ Vagrant.configure("2") do |config|
 
     config.ssh.password = "vagrant"
     config.ssh.username = "vagrant"
+
+    # put the box on the network so we can participate in multi-host networking
+    config.vm.network "public_network"
 
     config.vm.provider "virtualbox" do |v|
         v.gui = false
@@ -40,9 +42,8 @@ Vagrant.configure("2") do |config|
         corporate.args = project
     end
 
-    config.vm.define "xenial-docker" do |server|
-        # put the box on the network so we can participate in multi-host networking
-        server.vm.network "public_network"
+    config.vm.define "xenial-docker", primary: true do |server|
+        server.vm.box = "kurron/xenial-server-docker"
         server.vm.hostname="xenial-docker"
         server.vm.provider "virtualbox" do |v|
             v.gui = true
@@ -52,4 +53,17 @@ Vagrant.configure("2") do |config|
             v.customize ["modifyvm", :id, "--cpus", "1"]
         end
     end
+
+    config.vm.define "maipo-docker", autostart: false do |server|
+        server.vm.box = "kurron/maipo-server-docker"
+        server.vm.hostname="maipo-docker"
+        server.vm.provider "virtualbox" do |v|
+            v.gui = true
+            v.name = "jvmguy.maipo-docker"
+            v.customize ["modifyvm", :id, "--memory", "2048"]
+            v.customize ["modifyvm", :id, "--vram", "24"]
+            v.customize ["modifyvm", :id, "--cpus", "1"]
+        end
+    end
+
 end

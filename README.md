@@ -15,6 +15,30 @@ All the components of the environment live in repositories on the internet so th
 #Installation
 Type `vagrant up` and go get a cup of coffee.  The construction time of the box greatly depends on your internet speeds.
 
+# Choice Of Disributions
+We now support multiple Linux distributions.  If you run `vagrant status` you should see something like this:
+
+```
+vagrant status
+Current machine states:
+
+xenial-docker             not created (virtualbox)
+maipo-docker              not created (virtualbox)
+```
+
+By default, `xenial-docker` is the default but you can also run `vagrant up maipo-docker` to run
+another distribution.  You can run concurrent instances if you have the hardware and the need.
+
+## Upgrading
+Sometimes the Vagrant file changes which can cause some subtle issues, such as creating an orphaned virutal machine.
+The safest upgrade procedure is the following:
+
+1. `vagrant destroy` to remove the existing box
+1. `git pull` to download the new files
+1. **`vagrant box outdated`** to see if newer version of the box is available
+1. `vagrant box update --box <boxname>` to pull down the current version of the box
+1. `vagrant up` to build the new box
+
 #Tips and Tricks
 
 ##RAM and CPU Settings
@@ -59,6 +83,8 @@ exactly what they install and get a full inventory of the sofware and convenienc
 
 * [packer-server-xenial](https://github.com/kurron/packer-server-xenial) - `master` branch
 * [packer-server-xenial](https://github.com/kurron/packer-server-xenial) - `docker` branch
+* [packer-server-maipo](https://github.com/kurron/packer-server-maipo) - `master` branch
+* [packer-server-maipo](https://github.com/kurron/packer-server-maipo) - `docker` branch
 
 #Troubleshooting
 
