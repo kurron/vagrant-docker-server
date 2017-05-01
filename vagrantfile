@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     config.vm.network "public_network"
 
     # The "Vagrant was unable to mount VirtualBox shared folders." but is back. Disabling for now.
-    config.vm.synced_folder ".", "/vagrant", disabled: true
+#   config.vm.synced_folder ".", "/vagrant", disabled: true
 
     config.vm.provider "virtualbox" do |v|
         v.gui = false
