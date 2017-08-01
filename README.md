@@ -93,5 +93,15 @@ Sometimes networks fail or mirror sites go down. If you experience a failure, yo
 by issuing `vagrant provision` at the command line.  Vagrant will attempt to start over, but will skip any provisions that
 have already taken place.
 
+# Change History
+
+1. Release 5.1.26
+    * Upgrade: VirtualBox 5.1.26
+    * Upgrade: Vagrant 1.9.7
+    * Upgrade: Docker 17.06.0-ce
+    * Upgrade: Docker Compose 1.15.0
+    * Upgrade: Ansible 2.3.1.0
+    * Upgrade: Linux Kernel 4.4.0-87-generic
+
 # License and Credits
 This project is licensed under the [Apache License Version 2.0, January 2004](http://www.apache.org/licenses/).
